@@ -9,7 +9,7 @@ const Navbar = () => {
   const route=useRouter()
   return (
     <div className="w-full p-4 font-bold text-xl flex justify-between">
-<div className='hover:underline' onClick={()=>route.push("/")}>
+<div className='hover:underline cursor-pointer' onClick={()=>route.push("/")}>
     Codeshare
 </div>
 
