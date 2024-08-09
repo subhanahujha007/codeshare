@@ -2,19 +2,23 @@
 import React, { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import axios from "axios"
+import { useRouter } from 'next/navigation'
 import { TabsDemo } from '../_components/tabsdemo'
 const page = () => {
   const [username,setusername]=useState("")
   const [password,setpassword]=useState("")
   const [confirmpassword,setconfirmpassword]=useState("")
   const [error,seterror]=useState("")
+  const route=useRouter()
   const handlesubmit=async(e:any)=>{
 e.preventDefault()
 if(username===""||password===""||confirmpassword===""){
 seterror("please fill the form") 
+return
 }
 if(password!=confirmpassword){
   seterror("password not match")
+  return
 }try {
   
   const response=await axios.post('http://localhost:3000/api/signup',{
@@ -28,6 +32,7 @@ if(password!=confirmpassword){
     setpassword("");
     setconfirmpassword("");
     seterror("");
+route.push("/")
   }
 } catch (error) {
   seterror("failed to sign up please try again")
