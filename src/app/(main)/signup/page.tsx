@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import axios from "axios"
 import { useRouter } from 'next/navigation'
 import { TabsDemo } from '../_components/tabsdemo'
+import { toast } from 'sonner'
 const page = () => {
   const [username,setusername]=useState("")
   const [password,setpassword]=useState("")
@@ -14,10 +15,12 @@ const page = () => {
 e.preventDefault()
 if(username===""||password===""||confirmpassword===""){
 seterror("please fill the form") 
+toast.warning("fill all the feilds")
 return
 }
 if(password!=confirmpassword){
   seterror("password not match")
+  toast.error("password mismatch")
   return
 }try {
   
@@ -27,7 +30,7 @@ if(password!=confirmpassword){
   })
   console.log(response)
   if(response.status==200){
-    alert("signed in")
+   toast.success("User created successfully")
     setusername("");
     setpassword("");
     setconfirmpassword("");
@@ -36,6 +39,7 @@ route.push("/")
   }
 } catch (error) {
   seterror("failed to sign up please try again")
+  toast.error("error has occured")
 }
 }
   return (

@@ -4,6 +4,7 @@ import { CardStackDemo } from '../_components/cards';
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 const Page = () => {
   const [username,setusername]=useState("")
   const [password,setpassword]=useState("")
@@ -13,6 +14,7 @@ const Page = () => {
     e.preventDefault()
     if(username==="" || password === "" ){
       seterror("please fill the feilds")
+      toast.warning("fill all the feilds")
       return
     }
    try {
@@ -21,7 +23,7 @@ const Page = () => {
        password:password
      })
      if(response.status==200){
-       alert("logged in succesfully")
+       toast.success("logged in succesfully")
        setusername("")
        setpassword("")
        seterror("")
@@ -30,6 +32,7 @@ const Page = () => {
    } catch (error) {
     console.log(error)
     seterror("failed to login")
+    toast.error("something went wrong")
    }
   }
   return (
