@@ -12,6 +12,7 @@ export async function POST(request:NextRequest) {
          data:{
              username:username,
              password:hashedpassword,
+             refreshtoken:"hithere"
          },select:{
             username:true
          }
