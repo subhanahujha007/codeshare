@@ -1,61 +1,25 @@
-"use client"
-import { useState } from 'react';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
-const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
+import React from 'react';
+import { CardStackDemo } from '../_components/cards';
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-
-    try {
-      const response = await axios.post('/api/login', { email, password });
-      // Handle successful login (e.g., redirect to dashboard)
-      router.push('/dashboard'); // Adjust this route as needed
-    } catch (error) {
-      setError('Login failed. Please check your credentials and try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
+const Page = () => {
   return (
-    <div >
-      <h1>Login</h1>
-      <form onSubmit={handleLogin}>
-        <div >
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div >
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        {error && <p >{error}</p>}
-        <button type="submit" disabled={loading}>
-          {loading ? 'Logging in...' : 'Login'}
-        </button>
-      </form>
+   <div className='flex flex-row flex-1'>
+    <div className='w-[50%] flex flex-col pt-4 px-3 border-y-white'>
+<h1 className='text-[25px]'>Welcome back to codeshare join in to learn and grow </h1>
+<p className='mt-7'>codeshare is the only online dedicated platform where you can communicate to people around the world in realtime to chat about technological advancement</p>
+   <CardStackDemo/>
     </div>
+    <div className='w-[50%] h-[100vh]  flex flex-col p-4 items-center justify-center'>
+      <h1>Log into your codeshare account</h1>
+<div className='h-[40%] gap-4 flex flex-col'>
+  <p>username :</p>
+  <input type="text"className='p-2' placeholder='enter your username' />
+  <p>password :</p>
+  <input type="password" placeholder='enter your password'  className='p-2' />
+</div>
+    </div>
+   </div>
   );
-};
+}
 
-export default Login;
+export default Page;
