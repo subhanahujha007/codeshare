@@ -5,7 +5,7 @@ import axios from "axios"
 import { useRouter } from 'next/navigation'
 import { TabsDemo } from '../_components/tabsdemo'
 import { toast } from 'sonner'
-const page = () => {
+const Page = () => {
   const [username,setusername]=useState("")
   const [password,setpassword]=useState("")
   const [confirmpassword,setconfirmpassword]=useState("")
@@ -65,4 +65,4 @@ route.push("/")
   )
 }
 
-export default page
+export default Page
