@@ -1,20 +1,26 @@
-import { NextRequest ,NextResponse } from "next/server";
-import {PrismaClient} from "@prisma/client"
-import bcrypt from "bcryptjs"
-const prisma=new PrismaClient()
-export async function POST(request:NextRequest) {
-    const {username,password}=await request.json()
-try {
-    const result=prisma.user.findUnique(username)
-    if(!result){
-        return  new NextRequest(JSON.stringify({message:"user does not exist",status:401}))
+import { NextRequest, NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcryptjs";
+
+const prisma = new PrismaClient();
+
+export async function POST(request: NextRequest) {
+    const { username, password } = await request.json();
+
+    try {
+        const user = await prisma.user.findUnique({ where: { username } });
+
+        if (!user) {
+            return new NextResponse(JSON.stringify({ message: "User does not exist", status: 401 }), { status: 401 });
+        }
+
+        const isPasswordCorrect = await bcrypt.compare(password, user.password);
+        if (!isPasswordCorrect) {
+            return new NextResponse(JSON.stringify({ message: "Incorrect username or password", status: 401 }), { status: 401 });
+        }
+
+        return new NextResponse(JSON.stringify({ message: "User logged in", status: 200 }), { status: 200 });
+    } catch (error) {
+        return new NextResponse(JSON.stringify({ message: "Something went wrong", status: 500 }), { status: 500 });
     }
-    const hashedPassword=await bcrypt.hash(password,10)
-    if(!hashedPassword){
-       return  new NextRequest(JSON.stringify({message:"incorrect username or password",status:401}))
-    }
-    return new NextResponse(JSON.stringify({message:"user logged in",status:200}))
-} catch (error) {
-    return new NextResponse(JSON.stringify({message:"something went wrong",status:500}))
-}
 }
